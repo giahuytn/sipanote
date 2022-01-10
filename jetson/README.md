@@ -1,7 +1,8 @@
 
 #########################333
 # Steps
-## 1. copy this folder into source code.
+## Steps
++ copy **docker** folder into source code.
 after copy, the data folder looks like:
 ```
 |- linux_libnfc-nci
@@ -11,10 +12,21 @@ after copy, the data folder looks like:
    | ...
    
 ```
-## 2. go to docker folder and run ``` ./build.sh ``` to build docker image (chmod if needed)
++ do commandline
+```
+cd docker
+sudo ./build.sh   	\\ build docker image
+sudo ./run_docker.sh	\\ map native device to container and then run docker container
+```
+if configuration is correctly, the consonle of docker instance should be the same with local app'consonle
 
-### Notice
-This commadline will copy all files (include exe and libs) froms "./libs" folder into "docker/app" folder to prepare for building container image
+
+# Explanation
+
+## Commandline ``` ./build.sh ``` 
+This commadline build docker image (chmod if needed). It will do:
++ copy all files (include exe and libs) froms "./libs" folder into "docker/app" folder to prepare for building container image
++ build a docker image with **Dockerfile**
 
 ### Explain about how to build docker image (dockerfile)
 
@@ -24,17 +36,14 @@ COPY ./app/ /							\\ copy app to docker image
 CMD ["/nfcDemoApp","poll"]				\\ execute a commandline: nfcDemoApp poll
 ```
 
-## 3. to start docker, run
-```
-sudo run_docker.sh
-```
-or 
+## How docker start
+
+To run docker image, exe the command line following:
 ```
 sudo docker run --rm -v /sys:/sys -v /proc:/proc --device /dev/gpiochip0:/dev/gpiochip0 --device /dev/gpiochip1:/dev/gpiochip1 --device /dev/i2c-0:/dev/i2c-0 --device /dev/i2c-1:/dev/i2c-1 -it --privileged jetson-test
 ```
 
-### Notice
-As Dinesh said, the app use i2c Port + gpio for the interface, therefore we need to map device from native to docker container
+This commadline will map device/folder from native to docker container following:
 ```
 device
 	/dev/gpiochip0 -> /dev/gpiochip0
@@ -47,10 +56,32 @@ folder:
 	/proc -> /proc
 ```
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#############################################
 # key 
 ```sh
 docker login nvcr.io
 
 Username: $oauthtoken
 Password: ZHVwMDI5YTVkMWptbmtidTJ2YXJpM3AzZWM6ZTBkYmU3NzAtMGExMS00Yjc1LThhNWMtM2I5M2E3NzVmMmVh
-```
