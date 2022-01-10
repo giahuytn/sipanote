@@ -39,11 +39,13 @@ CMD ["/nfcDemoApp","poll"]				\\ execute a commandline: nfcDemoApp poll
 ## How docker start
 
 To run docker image, exe the command line following:
+
 ```
 sudo docker run --rm -v /sys:/sys -v /proc:/proc --device /dev/gpiochip0:/dev/gpiochip0 --device /dev/gpiochip1:/dev/gpiochip1 --device /dev/i2c-0:/dev/i2c-0 --device /dev/i2c-1:/dev/i2c-1 -it --privileged jetson-test
 ```
 
 This commadline will map device/folder from native to docker container following:
+
 ```
 device
 	/dev/gpiochip0 -> /dev/gpiochip0
@@ -56,4 +58,7 @@ folder:
 	/proc -> /proc
 ```
 
+## How share data bte jetson with container
 
+We map a folder data btw native with container
+for instance: add argument into docker command ```-v /data:/data ```
